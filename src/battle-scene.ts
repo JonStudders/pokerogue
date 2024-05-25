@@ -155,6 +155,7 @@ export default class BattleScene extends SceneBase {
   private party: PlayerPokemon[];
   /** Combined Biome and Wave count text */
   private biomeWaveText: Phaser.GameObjects.Text;
+  private additionalBattleInfoText: Phaser.GameObjects.Text;
   private moneyText: Phaser.GameObjects.Text;
   private scoreText: Phaser.GameObjects.Text;
   private luckLabelText: Phaser.GameObjects.Text;
@@ -357,6 +358,10 @@ export default class BattleScene extends SceneBase {
     this.biomeWaveText.setOrigin(1, 0);
     this.fieldUI.add(this.biomeWaveText);
 
+    this.additionalBattleInfoText = addTextObject(this, (this.game.canvas.width / 6) - 2, 0, "Weather - Terrain - ToD", TextStyle.BATTLE_INFO);
+    this.additionalBattleInfoText.setOrigin(1, 0);
+    this.fieldUI.add(this.additionalBattleInfoText);
+
     this.moneyText = addTextObject(this, (this.game.canvas.width / 6) - 2, 0, "", TextStyle.MONEY);
     this.moneyText.setOrigin(1, 0);
     this.fieldUI.add(this.moneyText);
@@ -484,6 +489,7 @@ export default class BattleScene extends SceneBase {
     });
 
     this.updateBiomeWaveText();
+    this.updateAdditionalBattleInfoText();
     this.updateMoneyText();
     this.updateScoreText();
   }
@@ -799,6 +805,9 @@ export default class BattleScene extends SceneBase {
 
     this.biomeWaveText.setText(startingWave.toString());
     this.biomeWaveText.setVisible(false);
+
+    this.updateAdditionalBattleInfoText();
+    this.additionalBattleInfoText.setVisible(false);
 
     this.updateMoneyText();
     this.moneyText.setVisible(false);
@@ -1257,6 +1266,18 @@ export default class BattleScene extends SceneBase {
     this.biomeWaveText.setVisible(true);
   }
 
+  updateAdditionalBattleInfoText() :void {
+    if (this.additionalBattleInfo && this.currentBattle) {
+      // Weather - Terrain - Time of Day
+      //const currentWeatherString = "";
+      //const currentTerrainString = "";
+      //currentTimeOfDayString = "";
+      this.additionalBattleInfoText.setText("Hi");
+      this.additionalBattleInfoText.setVisible(true);
+      //Need to figure out how to reload so you dont need next wave to update.
+    }
+  }
+
   updateMoneyText(): void {
     this.moneyText.setText(`₽${Utils.formatLargeNumber(this.money, 1000)}`);
     this.moneyText.setVisible(true);
@@ -1303,7 +1324,8 @@ export default class BattleScene extends SceneBase {
   updateUIPositions(): void {
     const enemyModifierCount = this.enemyModifiers.filter(m => m.isIconVisible(this)).length;
     this.biomeWaveText.setY(-(this.game.canvas.height / 6) + (enemyModifierCount ? enemyModifierCount <= 12 ? 15 : 24 : 0));
-    this.moneyText.setY(this.biomeWaveText.y + 10);
+    this.additionalBattleInfoText.setY(this.biomeWaveText.y + 10);
+    this.moneyText.setY(this.additionalBattleInfo ? this.additionalBattleInfoText.y + 10 : this.biomeWaveText.y + 10);
     this.scoreText.setY(this.moneyText.y + 10);
     [ this.luckLabelText, this.luckText ].map(l => l.setY((this.scoreText.visible ? this.scoreText : this.moneyText).y + 10));
     const offsetY = (this.scoreText.visible ? this.scoreText : this.moneyText).y + 15;
