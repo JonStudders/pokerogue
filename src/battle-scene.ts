@@ -114,6 +114,7 @@ export default class BattleScene extends SceneBase {
   public fusionPaletteSwaps: boolean = true;
   public enableTouchControls: boolean = false;
   public enableVibration: boolean = false;
+  public additionalBattleInfo: boolean = false;
   public abSwapped: boolean = false;
 
   public disableMenu: boolean = false;
