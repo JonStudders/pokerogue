@@ -127,6 +127,7 @@ export default class BattleScene extends SceneBase {
   public expParty: integer = 0;
   public hpBarSpeed: integer = 0;
   public fusionPaletteSwaps: boolean = true;
+  public skipHatchAnimation: boolean = false;
   public enableTouchControls: boolean = false;
   public enableVibration: boolean = false;
   public abSwapped: boolean = false;

@@ -33,7 +33,8 @@ export enum Setting {
   Gamepad_Support = "GAMEPAD_SUPPORT",
   Swap_A_and_B = "SWAP_A_B", // Swaps which gamepad button handles ACTION and CANCEL
   Touch_Controls = "TOUCH_CONTROLS",
-  Vibration = "VIBRATION"
+  Vibration = "VIBRATION",
+  Skip_Hatch_Animation = "SKIP_HATCH_ANIMATION"
 }
 
 export interface SettingOptions {
@@ -69,7 +70,8 @@ export const settingOptions: SettingOptions = {
   [Setting.Gamepad_Support]: ["Auto", "Disabled"],
   [Setting.Swap_A_and_B]: ["Enabled", "Disabled"],
   [Setting.Touch_Controls]: ["Auto", "Disabled"],
-  [Setting.Vibration]: ["Auto", "Disabled"]
+  [Setting.Vibration]: ["Auto", "Disabled"],
+  [Setting.Skip_Hatch_Animation]: ["Off", "On"]
 };
 
 export const settingDefaults: SettingDefaults = {
@@ -97,7 +99,8 @@ export const settingDefaults: SettingDefaults = {
   [Setting.Gamepad_Support]: 0,
   [Setting.Swap_A_and_B]: 1, // Set to 'Disabled' by default
   [Setting.Touch_Controls]: 0,
-  [Setting.Vibration]: 0
+  [Setting.Vibration]: 0,
+  [Setting.Skip_Hatch_Animation]: 0
 };
 
 export const reloadSettings: Setting[] = [Setting.UI_Theme, Setting.Language, Setting.Sprite_Set, Setting.Candy_Upgrade_Display];
@@ -178,6 +181,9 @@ export function setSetting(scene: BattleScene, setting: Setting, value: integer)
     break;
   case Setting.Fusion_Palette_Swaps:
     scene.fusionPaletteSwaps = !!value;
+    break;
+  case Setting.Skip_Hatch_Animation:
+    scene.skipHatchAnimation = settingOptions[setting][value] === "On";
     break;
   case Setting.Player_Gender:
     if (scene.gameData) {
